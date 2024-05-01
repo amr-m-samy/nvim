@@ -35,13 +35,33 @@ return {
 				"stylua",
 				"prettier",
 				"typescript-language-server",
+				"htmlhint",
+				"html-lsp",
+				"css-lsp",
+				"tailwindcss-language-server",
 			},
 		},
+	},
+	{
+		"windwp/nvim-ts-autotag",
+		ft = {
+			"javascript",
+			"javascriptreact",
+			"typescript",
+			"typescriptreact",
+		},
+		config = function()
+			require("nvim-ts-autotag").setup()
+		end,
 	},
 
 	{
 		"nvim-treesitter/nvim-treesitter",
+
 		opts = {
+			autotag = {
+				enable = true,
+			},
 			ensure_installed = {
 				-- defaults
 				"vim",

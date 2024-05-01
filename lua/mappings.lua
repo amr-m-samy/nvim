@@ -4,7 +4,7 @@ require("nvchad.mappings")
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
+-- map("n", ";", ":", { desc = "CMD enter command mode" })
 
 map("n", "<leader>fm", function()
 	require("conform").format()
@@ -16,6 +16,9 @@ map("n", "<Leader>db", function()
 	require("dap").toggle_breakpoint()
 end)
 map("n", "<F5>", function()
+	if vim.fn.filereadable("vscode/launch.json") then
+		require("dap.ext.vscode").load_launchjs(nil, { cpptools = { "c", "cpp" } })
+	end
 	require("dap").continue()
 end, { desc = "Debugger continue" })
 map("n", "<F6>", function()
@@ -39,4 +42,13 @@ end, { desc = "Debugger stop" })
 map("n", "<leader>dn", function()
 	require("dap-python").test_method()
 end)
+
+map("n", "<leader>df", function()
+	require("dap-python").test_class()
+end)
+
+map("n", "<leader>dn", function()
+	require("dap-python").debug_selection()
+end)
+
 -- map("n", "<Leader>B", require("dap").toggle_breakpoint, {})

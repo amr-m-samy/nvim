@@ -16,6 +16,7 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				typescript = { "prettier" },
+				xml = { "prettier" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

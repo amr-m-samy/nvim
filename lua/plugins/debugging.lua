@@ -14,16 +14,17 @@ return {
 		config = function(_, opts)
 			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
 			require("dap-python").setup(path)
-			table.insert(require("dap").configurations.python, {
-				type = "python",
-				request = "launch",
-				name = "Flask",
-				-- program = "${file}",
-				module = "flask",
-				justMyCode = false,
-				args = { "--app", "demo", "run", "-h", "0.0.0.0", "-p", "8001" },
-				-- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
-			})
+			require("dap.ext.vscode").load_launchjs(nil, {})
+			-- table.insert(require("dap").configurations.python, {
+			-- 	type = "python",
+			-- 	request = "launch",
+			-- 	name = "Flask",
+			-- 	-- program = "${file}",
+			-- 	module = "flask",
+			-- 	justMyCode = false,
+			-- 	args = { "--app", "flaskr", "run", "-h", "0.0.0.0", "-p", "8001" },
+			-- 	-- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
+			-- })
 		end,
 	},
 	{

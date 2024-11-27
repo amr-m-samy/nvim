@@ -54,5 +54,16 @@ end)
 map("n", "<leader>dn", function()
 	require("dap-python").debug_selection()
 end)
+map("n", "<leader>dc", function()
+	require("dap-python").debug_configuration()
+end)
 
 -- map("n", "<Leader>B", require("dap").toggle_breakpoint, {})
+
+map("i", "<C-j>", 'copilot#Accept("")', {
+	expr = true, -- Evaluate the Copilot function
+	replace_keycodes = false, -- to prevent <80>@7 from appearing in the end of the line
+	-- noremap = true,
+	silent = true,
+	desc = "Copilot Accept",
+})

@@ -2,9 +2,10 @@ return {
 	-- Other plugins...
 	{
 		"github/copilot.vim",
-		config = function()
-			-- Optional: Add configuration for Copilot here.
-			vim.g.copilot_no_tab_map = true -- Example: disable default <Tab> mapping
+		lazy = false,
+		config = function() -- Mapping tab is already used in NvChad
+			vim.g.copilot_no_tab_map = true -- Disable tab mapping
+			vim.g.copilot_assume_mapped = true -- Assume that the mapping is already don
 		end,
 	},
 }

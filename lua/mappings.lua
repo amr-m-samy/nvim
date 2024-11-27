@@ -13,6 +13,12 @@ end, { desc = "File Format with conform" })
 
 map("i", "jj", "<ESC>", { desc = "Escape insert mode" })
 
+-- Tab navigation
+-- Ctrl + . for tabnext
+map({ "n" }, "<M-.>", ":tabnext<CR>", { desc = "Next Tab" })
+-- Ctrl + , for tabprevious
+map({ "n" }, "<M-,>", ":tabprevious<CR>", { desc = "Previous Tab" })
+
 map("n", "<Leader>db", function()
 	require("dap").toggle_breakpoint()
 end)

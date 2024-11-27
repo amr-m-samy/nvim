@@ -1,7 +1,14 @@
 local M = {}
 
 M.ui = {
-	theme = "tokyonight",
+	statusline = { theme = "vscode_colored" },
+	cmp = {
+		icons_left = true,
+	},
+}
+
+M.base46 = {
+	theme = "tokyodark",
 	transparency = true,
 }
 

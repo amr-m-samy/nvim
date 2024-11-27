@@ -70,12 +70,31 @@ return {
 			require("nvim-ts-autotag").setup()
 		end,
 	},
+	"nvim-lua/plenary.nvim",
+
 	{
-		"norcalli/nvim-colorizer.lua",
+		"nvchad/ui",
 		config = function()
-			require("colorizer").setup()
+			require("nvchad")
 		end,
 	},
+
+	{
+		"nvchad/base46",
+		lazy = true,
+		build = function()
+			require("base46").load_all_highlights()
+		end,
+	},
+
+	"nvchad/volt", -- optional, needed for theme switcher
+	-- or just use Telescope themes
+	-- {
+	-- 	"norcalli/nvim-colorizer.lua",
+	-- 	config = function()
+	-- 		require("colorizer").setup()
+	-- 	end,
+	-- },
 
 	{
 		"nvim-treesitter/nvim-treesitter",

@@ -6,7 +6,7 @@ local capabilities = configs.capabilities
 
 local lspconfig = require("lspconfig")
 local servers =
-	{ "html", "cssls", "clangd", "pyright", "somesass_ls", "cssls", "tsserver", "bashls", "lua_ls", "tailwindcss" }
+	{ "html", "cssls", "clangd", "pyright", "somesass_ls", "cssls", "ts_ls", "bashls", "lua_ls", "tailwindcss" }
 
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({

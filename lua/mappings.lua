@@ -67,3 +67,15 @@ map("i", "<C-j>", 'copilot#Accept("")', {
 	silent = true,
 	desc = "Copilot Accept",
 })
+
+map("i", "<C-a>", [[<Esc>:lua ToggleArabicMode()<CR>i]], { noremap = true, silent = true })
+function ToggleArabicMode()
+	print("Toggling Arabic mode")
+	if vim.o.arabic then
+		vim.cmd("set noarabic")
+		print("Arabic mode disabled")
+	else
+		vim.cmd("set arabic norl termbidi ")
+		print("Arabic mode enabled")
+	end
+end

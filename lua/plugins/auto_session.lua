@@ -3,14 +3,14 @@ return {
 	lazy = false,
 	keys = {
 		-- Will use Telescope if installed or a vim.ui.select picker otherwise
-		{ "<leader>wR", "<cmd>SessionSearch<CR>", desc = "Session search" },
+		{ "<leader>fr", "<cmd>SessionSearch<CR>", desc = "Session search" },
 		{ "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save session" },
 		{ "<leader>wA", "<cmd>SessionToggleAutoSave<CR>", desc = "Toggle autosave" },
 	},
 	config = function()
 		require("auto-session").setup({
 
-			suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+			suppresled_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
 			session_lens = {
 				-- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
 				load_on_setup = true,

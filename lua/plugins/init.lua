@@ -100,6 +100,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 
 		opts = {
+			disable = { "copilot.lua" },
 			ensure_installed = {
 				-- defaults
 				"vim",

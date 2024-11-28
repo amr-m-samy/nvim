@@ -60,13 +60,33 @@ end)
 
 -- map("n", "<Leader>B", require("dap").toggle_breakpoint, {})
 
-map("i", "<C-j>", 'copilot#Accept("")', {
+map("i", "<C-f>", 'copilot#Accept("")', {
 	expr = true, -- Evaluate the Copilot function
 	replace_keycodes = false, -- to prevent <80>@7 from appearing in the end of the line
 	-- noremap = true,
 	silent = true,
 	desc = "Copilot Accept",
 })
+
+-- write a keymap to :Copilot panel
+map("n", "<F2>", ":Copilot panel<CR>", { noremap = true, silent = true, desc = "Copilot: Open panel" })
+-- Accept one word of the current suggestion
+map("i", "<C-g>", "<Plug>(copilot-accept-word)", { silent = true, desc = "Copilot: Accept next word" })
+--
+-- Dismiss the current suggestion
+map("i", "<C-\\>", "<Plug>(copilot-dismiss)", { silent = true, desc = "Copilot: Dismiss suggestion" })
+
+-- Cycle to the next suggestion
+map("i", "<M-]>", "<Plug>(copilot-next)", { silent = true, desc = "Copilot: Next suggestion" })
+
+-- Cycle to the previous suggestion
+map("i", "<M-[>", "<Plug>(copilot-previous)", { silent = true, desc = "Copilot: Previous suggestion" })
+
+-- Explicitly request a suggestion
+map("i", "<M-\\>", "<Plug>(copilot-suggest)", { silent = true, desc = "Copilot: Request suggestion" })
+
+-- Accept the next line of the current suggestion
+map("i", "<C-d>", "<Plug>(copilot-accept-line)", { silent = true, desc = "Copilot: Accept next line" })
 
 map("i", "<C-a>", [[<Esc>:lua ToggleArabicMode()<CR>i]], { noremap = true, silent = true })
 function ToggleArabicMode()
@@ -79,3 +99,4 @@ function ToggleArabicMode()
 		print("Arabic mode enabled")
 	end
 end
+--

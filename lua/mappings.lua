@@ -43,36 +43,33 @@ map("n", "<F3>", function()
 	require("dap").disconnect()
 end, { desc = "Debugger stop" })
 
-map("n", "<leader>dn", function()
+map("n", "<leader>dm", function()
 	require("dap-python").test_method()
-end)
+end, { desc = "Debugger test method" })
 
-map("n", "<leader>df", function()
-	require("dap-python").test_class()
-end)
-
-map("n", "<leader>dn", function()
-	require("dap-python").debug_selection()
-end)
 map("n", "<leader>dc", function()
+	require("dap-python").test_class()
+end, { desc = "Debugger test class" })
+
+map("n", "<leader>ds", function()
+	require("dap-python").debug_selection()
+end, { desc = "Debugger debug selection" })
+map("n", "<leader>df", function()
 	require("dap-python").debug_configuration()
-end)
+end, { desc = "Debugger debug configuration" })
 
--- map("n", "<Leader>B", require("dap").toggle_breakpoint, {})
-
-map("i", "<C-f>", 'copilot#Accept("")', {
+------------------------------------------Copilot------------------------------------------
+map("i", "ff", 'copilot#Accept("<CR>")', {
 	expr = true, -- Evaluate the Copilot function
 	replace_keycodes = false, -- to prevent <80>@7 from appearing in the end of the line
 	-- noremap = true,
 	silent = true,
-	desc = "Copilot Accept",
+	desc = "Copilot Accept All Suggestion",
 })
-
--- write a keymap to :Copilot panel
 map("n", "<F2>", ":Copilot panel<CR>", { noremap = true, silent = true, desc = "Copilot: Open panel" })
 -- Accept one word of the current suggestion
-map("i", "<C-g>", "<Plug>(copilot-accept-word)", { silent = true, desc = "Copilot: Accept next word" })
---
+map("i", "fw", "<Plug>(copilot-accept-word)", { silent = true, desc = "Copilot: Accept next word" })
+
 -- Dismiss the current suggestion
 map("i", "<C-\\>", "<Plug>(copilot-dismiss)", { silent = true, desc = "Copilot: Dismiss suggestion" })
 
@@ -85,10 +82,12 @@ map("i", "<M-[>", "<Plug>(copilot-previous)", { silent = true, desc = "Copilot: 
 -- Explicitly request a suggestion
 map("i", "<M-\\>", "<Plug>(copilot-suggest)", { silent = true, desc = "Copilot: Request suggestion" })
 
--- Accept the next line of the current suggestion
-map("i", "<C-d>", "<Plug>(copilot-accept-line)", { silent = true, desc = "Copilot: Accept next line" })
+map("i", "fd", "<Plug>(copilot-accept-line)", { silent = true, desc = "Copilot: Accept next line" })
+------------------------------------------Arabic---------------------
 
-map("i", "<C-a>", [[<Esc>:lua ToggleArabicMode()<CR>i]], { noremap = true, silent = true })
+map("i", "<C-g>", [[<Esc>:lua ToggleArabicMode()<CR>i]], { noremap = true, silent = true })
+
+-- Toggle Arabic mode
 function ToggleArabicMode()
 	print("Toggling Arabic mode")
 	if vim.o.arabic then

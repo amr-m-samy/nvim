@@ -23,6 +23,9 @@ return {
 		"nvim-tree/nvim-tree.lua",
 		opts = {
 			git = { enable = true },
+			view = {
+				adaptive_size = true, -- Automatically adjust the width of the tree
+			},
 		},
 	},
 	{

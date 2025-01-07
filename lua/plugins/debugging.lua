@@ -15,6 +15,15 @@ return {
 			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
 			require("dap-python").setup(path)
 			require("dap.ext.vscode").load_launchjs(nil, {})
+			table.insert(require("dap").configurations.python, {
+				type = "python",
+				request = "launch",
+				name = "Launch Odoo",
+				program = "${workspaceFolder}/odoo-bin",
+				pythonPath = "${workspaceFolder}/venv/bin/python3.11",
+				args = { "-c", "/etc/odoo18.conf", "--dev", "all" },
+			})
+
 			-- table.insert(require("dap").configurations.python, {
 			-- 	type = "python",
 			-- 	request = "launch",

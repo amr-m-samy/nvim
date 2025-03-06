@@ -8,7 +8,7 @@ M.ui = {
 }
 
 M.base46 = {
-	theme = "onedark",
+	theme = "catppuccin",
 	transparency = true,
 }
 

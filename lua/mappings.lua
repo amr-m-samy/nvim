@@ -83,8 +83,26 @@ map("i", "<M-[>", "<Plug>(copilot-previous)", { silent = true, desc = "Copilot: 
 map("i", "<M-\\>", "<Plug>(copilot-suggest)", { silent = true, desc = "Copilot: Request suggestion" })
 
 map("i", "fd", "<Plug>(copilot-accept-line)", { silent = true, desc = "Copilot: Accept next line" })
-------------------------------------------Arabic---------------------
+------------------------------------------CopilotChat------------------------------------------
 
+map({ "n", "v" }, "<leader>cc", ":CopilotChat<CR>", { noremap = true, silent = true, desc = "CopilotChat: Open panel" })
+map(
+	{ "n", "v" },
+	"<leader>ce",
+	":CopilotChatExplain<CR>",
+	{ noremap = true, silent = true, desc = "CopilotChat: Explain" }
+)
+map({ "n", "v" }, "<leader>cf", ":CopilotChatFix<CR>", { noremap = true, silent = true, desc = "CopilotChat: Fix" })
+map(
+	{ "n", "v" },
+	"<leader>co",
+	":CopilotChatOptimize<CR>",
+	{ noremap = true, silent = true, desc = "CopilotChat: Optimize" }
+)
+map({ "n", "v" }, "<leader>cs", ":CopilotChatStop<CR>", { noremap = true, silent = true, desc = "CopilotChat: Stop" })
+
+------------------------------------------Arabic---------------------
+---
 map("i", "<C-g>", [[<Esc>:lua ToggleArabicMode()<CR>i]], { noremap = true, silent = true })
 
 -- Toggle Arabic mode

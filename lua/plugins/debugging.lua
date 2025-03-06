@@ -19,11 +19,20 @@ return {
 				type = "python",
 				request = "launch",
 				name = "Launch Odoo",
+				stopOnEntry = "false",
 				program = "${workspaceFolder}/odoo-bin",
 				pythonPath = "${workspaceFolder}/venv/bin/python3.11",
 				args = { "-c", "/etc/odoo18.conf", "--dev", "all" },
 			})
 
+			table.insert(require("dap").configurations.python, {
+				type = "python",
+				request = "launch",
+				name = "Launch Odoo test",
+				program = "${workspaceFolder}/odoo-bin",
+				pythonPath = "${workspaceFolder}/venv/bin/python3.11",
+				args = { "-c", "/etc/odoo18_2.conf", "--dev", "all" },
+			})
 			-- table.insert(require("dap").configurations.python, {
 			-- 	type = "python",
 			-- 	request = "launch",

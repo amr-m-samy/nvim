@@ -28,6 +28,15 @@ return {
 			table.insert(require("dap").configurations.python, {
 				type = "python",
 				request = "launch",
+				name = "Launch Odoo test 2",
+				stopOnEntry = "false",
+				program = "${workspaceFolder}/odoo-bin",
+				pythonPath = "/opt/odoo18/venv/bin/python3.11",
+				args = { "-c", "/etc/odoo18_test2.conf", "--dev", "all" },
+			})
+			table.insert(require("dap").configurations.python, {
+				type = "python",
+				request = "launch",
 				name = "Launch Odoo test",
 				program = "${workspaceFolder}/odoo-bin",
 				pythonPath = "${workspaceFolder}/venv/bin/python3.11",

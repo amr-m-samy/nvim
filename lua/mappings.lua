@@ -19,9 +19,10 @@ map({ "n" }, "<M-.>", ":tabnext<CR>", { desc = "Next Tab" })
 -- Ctrl + , for tabprevious
 map({ "n" }, "<M-,>", ":tabprevious<CR>", { desc = "Previous Tab" })
 
+-- dap mappings
 map("n", "<Leader>db", function()
 	require("dap").toggle_breakpoint()
-end)
+end, { desc = "Debugger toggle breakpoint" })
 map("n", "<F5>", function()
 	require("dap").continue()
 end, { desc = "Debugger continue" })

@@ -55,6 +55,7 @@ return {
 				"html-lsp",
 				"css-lsp",
 				"tailwindcss-language-server",
+				"lemminx",
 			},
 		},
 	},
@@ -66,7 +67,7 @@ return {
 			"typescript",
 			"typescriptreact",
 			"html",
-			"xml",
+			-- "xml",
 			"jsx",
 		},
 		config = function()

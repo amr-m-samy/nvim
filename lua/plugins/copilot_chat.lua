@@ -1,21 +1,45 @@
 return {
-	-- Other plugins...
+	-- 1. The Core Engine (Pure Lua Version)
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				panel = { enabled = false },
+				suggestion = {
+					enabled = true, -- Changed to TRUE so you get inline ghost text
+					auto_trigger = true, -- Automatically show suggestions as you type
+					debounce = 75,
+					keymap = {
+						-- NvChad uses Tab for its own menu, so we map Ctrl+l to accept Copilot's ghost text
+						accept = "<C-l>",
+						accept_word = false,
+						accept_line = false,
+						next = "<M-]>",
+						prev = "<M-[>",
+						dismiss = "<C-]>",
+					},
+				},
+			})
+		end,
+	},
+
+	-- 2. The Chat Engine
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		lazy = false,
 		dependencies = {
-			{ "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-			{ "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+			{ "zbirenbaum/copilot.lua" }, -- Tells the chat to use the Lua engine
+			{ "nvim-lua/plenary.nvim", branch = "master" },
 			{ "MunifTanjim/nui.nvim" },
 		},
-		build = "make tiktoken", -- Only on MacOS or Linux
+		build = "make tiktoken",
 		opts = {
-			suggestion = {
-				auto_trigger = true,
-				debounce = 100,
-			},
-			-- See Configuration section for options
+			show_help = "yes",
 		},
-		-- See Commands section for default commands if you want to lazy load on them
+		keys = {
+			{ "<leader>cc", ":CopilotChat<CR>", desc = "Open Copilot Chat" },
+		},
 	},
 }

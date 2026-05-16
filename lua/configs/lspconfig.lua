@@ -4,19 +4,31 @@ local on_attach = configs.on_attach
 local on_init = configs.on_init
 local capabilities = configs.capabilities
 
-local lspconfig = require("lspconfig")
-local servers =
-	{ "html", "cssls", "clangd", "somesass_ls", "cssls", "ts_ls", "bashls", "lua_ls", "tailwindcss", "lemminx" }
+-- Removed the duplicate "cssls" from this list
+local servers = {
+	"html",
+	"cssls",
+	"clangd",
+	"somesass_ls",
+	"ts_ls",
+	"bashls",
+	"lua_ls",
+	"tailwindcss",
+	"lemminx",
+}
 
+-- 1. Configure and enable standard servers
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
+	vim.lsp.config(lsp, {
 		on_init = on_init,
 		on_attach = on_attach,
 		capabilities = capabilities,
 	})
+	vim.lsp.enable(lsp)
 end
 
-lspconfig.pyright.setup({
+-- 2. Configure and enable Pyright with Odoo paths
+vim.lsp.config("pyright", {
 	on_init = on_init,
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -25,7 +37,6 @@ lspconfig.pyright.setup({
 			analysis = {
 				-- autoSearchPaths = true,
 				-- useLibraryCodeForTypes = true,
-
 				extraPaths = {
 					"/opt/odoo18/odoo",
 					"/opt/odoo18/odoo/addons",
@@ -36,6 +47,7 @@ lspconfig.pyright.setup({
 		},
 	},
 })
+vim.lsp.enable("pyright")
 
 -- Without the loop, you would have to manually set up each LSP
 --

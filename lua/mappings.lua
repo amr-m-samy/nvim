@@ -117,4 +117,7 @@ function ToggleArabicMode()
 		print("Arabic mode enabled")
 	end
 end
---
+--------------------------------------------vm-mapping---------------------
+-- This is a placeholder for the vim-visual-multi plugin mappings.
+-- map("n", "<leader>wm", ":<C-u>call VM#StartVisualMulti()<CR>", { desc = "Start Visual Multi" })
+map("n", "<leader>wm", "<Plug>(VM-Start-Normal)", { desc = "Start Visual Multi" })

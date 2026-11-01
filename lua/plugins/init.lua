@@ -10,12 +10,9 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
-			{
-				"nvim-telescope/telescope-live-grep-args.nvim",
-				-- This will not install any breaking changes.
-				-- For major updates, this must be adjusted manually.
-				version = "^1.0.0",
-			},
+			-- Tracks the main branch: the last tagged release (1.1.0) still calls the
+			-- deprecated vim.tbl_flatten, which shows a warning on every live grep.
+			"nvim-telescope/telescope-live-grep-args.nvim",
 		},
 		config = function(_, opts)
 			-- Keep NvChad's telescope setup (layout, theme), then add the extension.

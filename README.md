@@ -2,6 +2,8 @@
 
 NvChad v2.5 setup for Python, Odoo, web development and C/C++, tested on Neovim 0.11 and 0.12.
 
+AI: Copilot (free plan) for inline autocomplete, Claude Code for chat, explanations and multi-file edits.
+
 ## Install
 
 ```bash
@@ -16,8 +18,7 @@ System tools:
 | --- | --- | --- |
 | `fd` | Virtualenv picker (`<leader>pv`) | `sudo dnf install fd-find` |
 | `ripgrep` | Telescope live grep | `sudo dnf install ripgrep` |
-| `make` | CopilotChat tokenizer build | `sudo dnf install make` |
-| Node.js | Copilot, pyright, prettier | `sudo dnf install nodejs` |
+| Node.js | Copilot, pyright, prettier, Claude Code | `sudo dnf install nodejs` |
 | Claude Code | `<leader>a…` keys | `npm install -g @anthropic-ai/claude-code`, then run `claude` once to sign in |
 
 For Odoo XML formatting with prettier, run `npm install --save-dev @prettier/plugin-xml` in the project.
@@ -55,11 +56,11 @@ Leader is `Space`. NvChad's defaults still apply (`<leader>ch` shows them all).
 | `<leader>du` | Toggle debugger UI |
 | `<leader>dm` / `<leader>dc` | Debug test method / class |
 | `<leader>ds` (visual) | Debug selection |
-| **Copilot** (insert mode) | |
+| **Copilot** (free plan, insert mode; sign in once with `:Copilot auth`) | |
 | `<C-l>` / `<M-w>` / `<M-l>` | Accept suggestion / word / line |
 | `<M-]>` / `<M-[>` / `<C-]>` | Next / previous / dismiss |
 | `F2` | Copilot panel |
-| `<leader>cc` `ce` `cf` `co` `ct` `cs` | Copilot Chat: open, explain, fix, optimize, tests, stop |
+| `<leader>tc` | Turn auto suggestions on/off in this buffer (useful while practising) |
 | **Claude Code** | |
 | `<leader>ac` / `<leader>af` | Toggle / focus Claude |
 | `<leader>ar` / `<leader>aC` | Resume / continue a session |

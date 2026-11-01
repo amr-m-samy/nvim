@@ -63,16 +63,9 @@ map("n", "<leader>df", function()
 end, { desc = "Debugger debug configuration" })
 
 -- Copilot ------------------------------------------------------------------
--- Inline suggestion keys live in plugins/copilot_chat.lua:
+-- Inline suggestion keys live in plugins/copilot.lua (<leader>tc toggles auto suggestions):
 --   <C-l> accept · <M-w> accept word · <M-l> accept line · <M-]>/<M-[> next/prev · <C-]> dismiss
 map("n", "<F2>", "<cmd>Copilot panel<CR>", { desc = "Copilot: open panel" })
-
-map({ "n", "v" }, "<leader>cc", ":CopilotChat<CR>", { silent = true, desc = "CopilotChat: open" })
-map({ "n", "v" }, "<leader>ce", ":CopilotChatExplain<CR>", { silent = true, desc = "CopilotChat: explain" })
-map({ "n", "v" }, "<leader>cf", ":CopilotChatFix<CR>", { silent = true, desc = "CopilotChat: fix" })
-map({ "n", "v" }, "<leader>co", ":CopilotChatOptimize<CR>", { silent = true, desc = "CopilotChat: optimize" })
-map({ "n", "v" }, "<leader>ct", ":CopilotChatTests<CR>", { silent = true, desc = "CopilotChat: generate tests" })
-map("n", "<leader>cs", "<cmd>CopilotChatStop<CR>", { silent = true, desc = "CopilotChat: stop" })
 
 -- Claude Code keys (<leader>a…) live in plugins/claude_code.lua
 

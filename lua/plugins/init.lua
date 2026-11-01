@@ -1,6 +1,8 @@
 return {
 	{
 		"stevearc/conform.nvim",
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo", "FormatToggle" },
 		config = function()
 			require("configs.conform")
 		end,
@@ -15,7 +17,9 @@ return {
 				version = "^1.0.0",
 			},
 		},
-		config = function()
+		config = function(_, opts)
+			-- Keep NvChad's telescope setup (layout, theme), then add the extension.
+			require("telescope").setup(opts)
 			require("telescope").load_extension("live_grep_args")
 		end,
 	},
@@ -31,31 +35,37 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			--     require "plugins.config.lspconfig"
-			--     require "custom.config.lspconfig"
 			require("nvchad.configs.lspconfig").defaults()
 			require("configs.lspconfig")
 		end,
 	},
 
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		opts = {
+			-- Install everything below with :MasonInstallAll
 			ensure_installed = {
-				"black",
-				"debugpy",
-				"flake8",
-				"eslint_d",
-				"lua-language-server",
+				-- Python
 				"pyright",
+				"ruff",
+				"debugpy",
+				-- Lua
+				"lua-language-server",
 				"stylua",
-				"prettier",
+				-- Web
 				"typescript-language-server",
-				"htmlhint",
 				"html-lsp",
 				"css-lsp",
+				"some-sass-language-server",
 				"tailwindcss-language-server",
+				"json-lsp",
+				"eslint_d",
+				"htmlhint",
+				"prettier",
+				-- XML (Odoo views), C/C++, shell
 				"lemminx",
+				"clangd",
+				"bash-language-server",
 			},
 		},
 	},
@@ -67,60 +77,46 @@ return {
 			"typescript",
 			"typescriptreact",
 			"html",
-			-- "xml",
-			"jsx",
+			"xml",
 		},
-		config = function()
-			require("nvim-ts-autotag").setup()
-		end,
+		opts = {},
 	},
-	"nvim-lua/plenary.nvim",
-
-	{
-		"nvchad/ui",
-		config = function()
-			require("nvchad")
-		end,
-	},
-
-	{
-		"nvchad/base46",
-		lazy = true,
-		build = function()
-			require("base46").load_all_highlights()
-		end,
-	},
-
-	"nvchad/volt", -- optional, needed for theme switcher
-	-- or just use Telescope themes
-	-- {
-	-- 	"norcalli/nvim-colorizer.lua",
-	-- 	config = function()
-	-- 		require("colorizer").setup()
-	-- 	end,
-	-- },
 
 	{
 		"nvim-treesitter/nvim-treesitter",
-
 		opts = {
-			disable = { "copilot.lua" },
 			ensure_installed = {
 				-- defaults
 				"vim",
 				"lua",
 				"vimdoc",
+				"query",
 
-				-- web dev
+				-- python & data
+				"python",
+				"toml",
+				"json",
+				"yaml",
+				"sql",
+				"regex",
+
+				-- web dev & Odoo
 				"html",
 				"css",
+				"scss",
 				"javascript",
 				"typescript",
 				"tsx",
-				"python",
+				"xml",
 
-				-- low level
+				-- low level & tools
 				"c",
+				"cpp",
+				"bash",
+				"markdown",
+				"markdown_inline",
+				"gitcommit",
+				"diff",
 			},
 		},
 	},

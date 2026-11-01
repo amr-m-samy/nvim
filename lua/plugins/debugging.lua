@@ -1,40 +1,58 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
-		config = function() end,
+		dependencies = {
+			-- Shows variable values inline while stepping
+			{ "theHamsta/nvim-dap-virtual-text", opts = {} },
+		},
 	},
 	{
-
 		"mfussenegger/nvim-dap-python",
 		ft = "python",
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"rcarriga/nvim-dap-ui",
 		},
-		config = function(_, opts)
-			local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-			require("dap-python").setup(path)
-			require("dap.ext.vscode").load_launchjs(nil, {})
-			table.insert(require("dap").configurations.python, {
+		config = function()
+			-- debugpy installed by Mason (:MasonInstallAll)
+			require("dap-python").setup(vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python")
+			-- .vscode/launch.json files are now read automatically by nvim-dap, no load_launchjs needed.
+
+			local configs = require("dap").configurations.python
+
+			-- Generic Odoo launcher: asks for the config file, uses the project's venv/.venv automatically.
+			table.insert(configs, {
+				type = "python",
+				request = "launch",
+				name = "Launch Odoo (choose config)",
+				program = "${workspaceFolder}/odoo-bin",
+				args = function()
+					local conf = vim.fn.input("Odoo config: ", "/etc/odoo19.conf", "file")
+					return { "-c", conf, "--dev", "all" }
+				end,
+				justMyCode = false, -- allow stepping into Odoo core
+			})
+
+			-- Odoo 18 launchers
+			table.insert(configs, {
 				type = "python",
 				request = "launch",
 				name = "Launch Odoo",
-				stopOnEntry = "false",
+				stopOnEntry = false,
 				program = "${workspaceFolder}/odoo-bin",
 				pythonPath = "${workspaceFolder}/venv/bin/python3.11",
 				args = { "-c", "/etc/odoo18.conf", "--dev", "all" },
 			})
-
-			table.insert(require("dap").configurations.python, {
+			table.insert(configs, {
 				type = "python",
 				request = "launch",
 				name = "Launch Odoo elwardya",
-				stopOnEntry = "false",
+				stopOnEntry = false,
 				program = "${workspaceFolder}/odoo-bin",
 				pythonPath = "/opt/odoo18/venv/bin/python3.11",
 				args = { "-c", "/etc/match_driver.conf", "--dev", "all" },
 			})
-			table.insert(require("dap").configurations.python, {
+			table.insert(configs, {
 				type = "python",
 				request = "launch",
 				name = "Launch Odoo test",
@@ -42,27 +60,16 @@ return {
 				pythonPath = "${workspaceFolder}/venv/bin/python3.11",
 				args = { "-c", "/etc/odoo18_2.conf", "--dev", "all" },
 			})
-			-- table.insert(require("dap").configurations.python, {
-			-- 	type = "python",
-			-- 	request = "launch",
-			-- 	name = "Flask",
-			-- 	-- program = "${file}",
-			-- 	module = "flask",
-			-- 	justMyCode = false,
-			-- 	args = { "--app", "flaskr", "run", "-h", "0.0.0.0", "-p", "8001" },
-			-- 	-- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
-			-- })
 		end,
 	},
 	{
-
 		"rcarriga/nvim-dap-ui",
 		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
 
-			require("dapui").setup()
+			dapui.setup()
 			dap.listeners.before.attach.dapui_config = function()
 				dapui.open()
 			end

@@ -1,45 +1,50 @@
 return {
-	-- 1. The Core Engine (Pure Lua Version)
+	-- Copilot inline suggestions (copilot.lua only; the old copilot.vim duplicate was removed)
 	{
 		"zbirenbaum/copilot.lua",
 		cmd = "Copilot",
 		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({
-				panel = { enabled = false },
-				suggestion = {
-					enabled = true, -- Changed to TRUE so you get inline ghost text
-					auto_trigger = true, -- Automatically show suggestions as you type
-					debounce = 75,
-					keymap = {
-						-- NvChad uses Tab for its own menu, so we map Ctrl+l to accept Copilot's ghost text
-						accept = "<C-l>",
-						accept_word = false,
-						accept_line = false,
-						next = "<M-]>",
-						prev = "<M-[>",
-						dismiss = "<C-]>",
-					},
+		opts = {
+			panel = {
+				enabled = true,
+				keymap = { open = "<M-CR>" }, -- Alt+Enter in insert mode, or <F2> in normal mode
+			},
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				debounce = 75,
+				keymap = {
+					-- NvChad uses Tab for the completion menu, so Copilot uses Ctrl/Alt keys
+					accept = "<C-l>",
+					accept_word = "<M-w>",
+					accept_line = "<M-l>",
+					next = "<M-]>",
+					prev = "<M-[>",
+					dismiss = "<C-]>",
 				},
-			})
-		end,
+			},
+		},
 	},
 
-	-- 2. The Chat Engine
+	-- Copilot Chat
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		lazy = false,
 		dependencies = {
-			{ "zbirenbaum/copilot.lua" }, -- Tells the chat to use the Lua engine
-			{ "nvim-lua/plenary.nvim", branch = "master" },
-			{ "MunifTanjim/nui.nvim" },
+			{ "zbirenbaum/copilot.lua" },
+			{ "nvim-lua/plenary.nvim" },
 		},
 		build = "make tiktoken",
-		opts = {
-			show_help = "yes",
+		cmd = {
+			"CopilotChat",
+			"CopilotChatOpen",
+			"CopilotChatToggle",
+			"CopilotChatExplain",
+			"CopilotChatFix",
+			"CopilotChatOptimize",
+			"CopilotChatReview",
+			"CopilotChatTests",
+			"CopilotChatStop",
 		},
-		keys = {
-			{ "<leader>cc", ":CopilotChat<CR>", desc = "Open Copilot Chat" },
-		},
+		opts = {},
 	},
 }

@@ -7,7 +7,7 @@ return {
 	config = function()
 		local lint = require("lint")
 		lint.linters_by_ft = {
-			python = { "flake8" },
+			-- Python is linted by the Ruff language server (see configs/lspconfig.lua)
 			javascript = { "eslint_d" },
 			html = { "htmlhint" },
 		}

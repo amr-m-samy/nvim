@@ -1,45 +1,50 @@
 require("nvchad.mappings")
 
--- add yours here
-
 local map = vim.keymap.set
 
--- map("n", ";", ":", { desc = "CMD enter command mode" })
-map("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-
-map("n", "<leader>fm", function()
-	require("conform").format()
-end, { desc = "File Format with conform" })
-
+-- General ------------------------------------------------------------------
 map("i", "jj", "<ESC>", { desc = "Escape insert mode" })
 
--- Tab navigation
--- Ctrl + . for tabnext
-map({ "n" }, "<M-.>", ":tabnext<CR>", { desc = "Next Tab" })
--- Ctrl + , for tabprevious
-map({ "n" }, "<M-,>", ":tabprevious<CR>", { desc = "Previous Tab" })
+map("n", "<leader>fg", function()
+	require("telescope").extensions.live_grep_args.live_grep_args()
+end, { desc = "Telescope live grep (with args)" })
 
--- dap mappings
-map("n", "<Leader>db", function()
+-- <leader>fm (format file) comes from NvChad and uses conform.
+map("n", "<leader>tf", "<cmd>FormatToggle<CR>", { desc = "Toggle format on save" })
+
+-- Tab navigation
+map("n", "<M-.>", "<cmd>tabnext<CR>", { desc = "Next tab" })
+map("n", "<M-,>", "<cmd>tabprevious<CR>", { desc = "Previous tab" })
+
+-- Move selected lines up/down in visual mode
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down", silent = true })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up", silent = true })
+
+-- Debugging (nvim-dap) -----------------------------------------------------
+map("n", "<leader>db", function()
 	require("dap").toggle_breakpoint()
 end, { desc = "Debugger toggle breakpoint" })
+map("n", "<leader>dB", function()
+	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, { desc = "Debugger conditional breakpoint" })
+map("n", "<leader>du", function()
+	require("dapui").toggle()
+end, { desc = "Debugger toggle UI" })
 map("n", "<F5>", function()
 	require("dap").continue()
 end, { desc = "Debugger continue" })
-map("n", "<F7>", function()
-	require("dap").step_over()
-end, { desc = "Debugger step_over" })
 map("n", "<F6>", function()
 	require("dap").step_into()
 end, { desc = "Debugger step_into" })
+map("n", "<F7>", function()
+	require("dap").step_over()
+end, { desc = "Debugger step_over" })
 map("n", "<F8>", function()
 	require("dap").step_out()
 end, { desc = "Debugger step_out" })
-
 map("n", "<F4>", function()
 	require("dap").restart()
 end, { desc = "Debugger restart" })
-
 map("n", "<F3>", function()
 	require("dap").disconnect()
 end, { desc = "Debugger stop" })
@@ -47,77 +52,44 @@ end, { desc = "Debugger stop" })
 map("n", "<leader>dm", function()
 	require("dap-python").test_method()
 end, { desc = "Debugger test method" })
-
 map("n", "<leader>dc", function()
 	require("dap-python").test_class()
 end, { desc = "Debugger test class" })
-
-map("n", "<leader>ds", function()
+map("v", "<leader>ds", function()
 	require("dap-python").debug_selection()
 end, { desc = "Debugger debug selection" })
 map("n", "<leader>df", function()
 	require("dap-python").debug_configuration()
 end, { desc = "Debugger debug configuration" })
 
-------------------------------------------Copilot------------------------------------------
-map("i", "ff", 'copilot#Accept("<CR>")', {
-	expr = true, -- Evaluate the Copilot function
-	replace_keycodes = false, -- to prevent <80>@7 from appearing in the end of the line
-	-- noremap = true,
-	silent = true,
-	desc = "Copilot Accept All Suggestion",
-})
-map("n", "<F2>", ":Copilot panel<CR>", { noremap = true, silent = true, desc = "Copilot: Open panel" })
--- Accept one word of the current suggestion
-map("i", "fw", "<Plug>(copilot-accept-word)", { silent = true, desc = "Copilot: Accept next word" })
+-- Copilot ------------------------------------------------------------------
+-- Inline suggestion keys live in plugins/copilot_chat.lua:
+--   <C-l> accept · <M-w> accept word · <M-l> accept line · <M-]>/<M-[> next/prev · <C-]> dismiss
+map("n", "<F2>", "<cmd>Copilot panel<CR>", { desc = "Copilot: open panel" })
 
--- Dismiss the current suggestion
-map("i", "<C-\\>", "<Plug>(copilot-dismiss)", { silent = true, desc = "Copilot: Dismiss suggestion" })
+map({ "n", "v" }, "<leader>cc", ":CopilotChat<CR>", { silent = true, desc = "CopilotChat: open" })
+map({ "n", "v" }, "<leader>ce", ":CopilotChatExplain<CR>", { silent = true, desc = "CopilotChat: explain" })
+map({ "n", "v" }, "<leader>cf", ":CopilotChatFix<CR>", { silent = true, desc = "CopilotChat: fix" })
+map({ "n", "v" }, "<leader>co", ":CopilotChatOptimize<CR>", { silent = true, desc = "CopilotChat: optimize" })
+map({ "n", "v" }, "<leader>ct", ":CopilotChatTests<CR>", { silent = true, desc = "CopilotChat: generate tests" })
+map("n", "<leader>cs", "<cmd>CopilotChatStop<CR>", { silent = true, desc = "CopilotChat: stop" })
 
--- Cycle to the next suggestion
-map("i", "<M-]>", "<Plug>(copilot-next)", { silent = true, desc = "Copilot: Next suggestion" })
+-- Claude Code keys (<leader>a…) live in plugins/claude_code.lua
 
--- Cycle to the previous suggestion
-map("i", "<M-[>", "<Plug>(copilot-previous)", { silent = true, desc = "Copilot: Previous suggestion" })
-
--- Explicitly request a suggestion
-map("i", "<M-\\>", "<Plug>(copilot-suggest)", { silent = true, desc = "Copilot: Request suggestion" })
-
-map("i", "fd", "<Plug>(copilot-accept-line)", { silent = true, desc = "Copilot: Accept next line" })
-------------------------------------------CopilotChat------------------------------------------
-
-map({ "n", "v" }, "<leader>cc", ":CopilotChat<CR>", { noremap = true, silent = true, desc = "CopilotChat: Open panel" })
-map(
-	{ "n", "v" },
-	"<leader>ce",
-	":CopilotChatExplain<CR>",
-	{ noremap = true, silent = true, desc = "CopilotChat: Explain" }
-)
-map({ "n", "v" }, "<leader>cf", ":CopilotChatFix<CR>", { noremap = true, silent = true, desc = "CopilotChat: Fix" })
-map(
-	{ "n", "v" },
-	"<leader>co",
-	":CopilotChatOptimize<CR>",
-	{ noremap = true, silent = true, desc = "CopilotChat: Optimize" }
-)
-map({ "n", "v" }, "<leader>cs", ":CopilotChatStop<CR>", { noremap = true, silent = true, desc = "CopilotChat: Stop" })
-
-------------------------------------------Arabic---------------------
----
-map("i", "<C-g>", [[<Esc>:lua ToggleArabicMode()<CR>i]], { noremap = true, silent = true })
-
--- Toggle Arabic mode
-function ToggleArabicMode()
-	print("Toggling Arabic mode")
+-- Arabic -------------------------------------------------------------------
+local function toggle_arabic()
 	if vim.o.arabic then
-		vim.cmd("set noarabic")
-		print("Arabic mode disabled")
+		vim.o.arabic = false
+		vim.notify("Arabic mode disabled")
 	else
-		vim.cmd("set arabic norl termbidi ")
-		print("Arabic mode enabled")
+		vim.cmd("set arabic norl termbidi")
+		vim.notify("Arabic mode enabled")
 	end
 end
---------------------------------------------vm-mapping---------------------
--- This is a placeholder for the vim-visual-multi plugin mappings.
--- map("n", "<leader>wm", ":<C-u>call VM#StartVisualMulti()<CR>", { desc = "Start Visual Multi" })
+
+map("i", "<C-g>", toggle_arabic, { desc = "Toggle Arabic mode" })
+map("n", "<leader>ta", toggle_arabic, { desc = "Toggle Arabic mode" })
+
+-- vim-visual-multi -----------------------------------------------------------
+-- NvChad uses <C-n> for the file tree, so start multi-cursor with <leader>wm
 map("n", "<leader>wm", "<Plug>(VM-Start-Normal)", { desc = "Start Visual Multi" })

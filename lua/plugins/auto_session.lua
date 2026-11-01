@@ -10,7 +10,7 @@ return {
 	config = function()
 		require("auto-session").setup({
 
-			suppresled_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+			suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
 			session_lens = {
 				-- If load_on_setup is false, make sure you use `:SessionSearch` to open the picker as it will initialize everything first
 				load_on_setup = true,
@@ -23,7 +23,7 @@ return {
 				},
 				-- Can also set some Telescope picker options
 				-- For all options, see: https://github.com/nvim-telescope/telescope.nvim/blob/master/doc/telescope.txt#L112
-				theme_conf = {
+				picker_opts = {
 					border = true,
 					-- layout_config = {
 					--   width = 0.8, -- Can set width and height as percent of window

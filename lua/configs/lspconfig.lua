@@ -1,10 +1,6 @@
-local configs = require("nvchad.configs.lspconfig")
+-- NvChad's defaults() (called from plugins/init.lua) already sets on_attach, on_init and
+-- capabilities for every server through vim.lsp.config("*"), so servers only need enabling here.
 
-local on_attach = configs.on_attach
-local on_init = configs.on_init
-local capabilities = configs.capabilities
-
--- Removed the duplicate "cssls" from this list
 local servers = {
 	"html",
 	"cssls",
@@ -14,49 +10,49 @@ local servers = {
 	"bashls",
 	"lua_ls",
 	"tailwindcss",
-	"lemminx",
+	"lemminx", -- XML (Odoo views)
+	"jsonls",
+	"pyright", -- Python: types, completion, go-to-definition
+	"ruff", -- Python: lint diagnostics and quick fixes (replaces flake8)
 }
 
--- 1. Configure and enable standard servers
-for _, lsp in ipairs(servers) do
-	vim.lsp.config(lsp, {
-		on_init = on_init,
-		on_attach = on_attach,
-		capabilities = capabilities,
-	})
-	vim.lsp.enable(lsp)
+-- Odoo source/addons paths so pyright resolves `from odoo import ...` and addon imports.
+-- Only folders that exist on this machine are used, so Odoo 18 and 19 installs both work.
+local function odoo_paths()
+	local candidates = {}
+	for _, root in ipairs({ "/opt/odoo19", "/opt/odoo18" }) do
+		vim.list_extend(candidates, { root .. "/odoo", root .. "/odoo/addons", root .. "/addons" })
+	end
+	-- Odoo's default data dir for downloaded/enterprise addons, e.g. ~/.local/share/Odoo/addons/19.0
+	vim.list_extend(candidates, vim.fn.glob(vim.fn.expand("~/.local/share/Odoo/addons/*"), false, true))
+	return vim.tbl_filter(function(p)
+		return vim.fn.isdirectory(p) == 1
+	end, candidates)
 end
 
--- 2. Configure and enable Pyright with Odoo paths
 vim.lsp.config("pyright", {
-	on_init = on_init,
-	on_attach = on_attach,
-	capabilities = capabilities,
 	settings = {
+		pyright = {
+			disableOrganizeImports = true, -- Ruff sorts imports
+		},
 		python = {
 			analysis = {
-				-- autoSearchPaths = true,
-				-- useLibraryCodeForTypes = true,
-				extraPaths = {
-					"/opt/odoo18/odoo",
-					"/opt/odoo18/odoo/addons",
-					"/home/master/.local/share/Odoo/addons/18.2/",
-					"/opt/odoo18/addons",
-				},
+				extraPaths = odoo_paths(),
+				typeCheckingMode = "basic",
 			},
 		},
 	},
 })
-vim.lsp.enable("pyright")
 
--- Without the loop, you would have to manually set up each LSP
---
--- lspconfig.html.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
--- }
---
--- lspconfig.cssls.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
--- }
+-- Let pyright handle hover; Ruff's hover only shows rule docs.
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("ruff_no_hover", { clear = true }),
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client and client.name == "ruff" then
+			client.server_capabilities.hoverProvider = false
+		end
+	end,
+})
+
+vim.lsp.enable(servers)

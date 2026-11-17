@@ -75,7 +75,7 @@ local function toggle_arabic()
 		vim.o.arabic = false
 		vim.notify("Arabic mode disabled")
 	else
-		vim.cmd("set arabic norl termbidi")
+		vim.cmd("set arabic norl termbidi noarabicshape")
 		vim.notify("Arabic mode enabled")
 	end
 end

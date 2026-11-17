@@ -20,3 +20,7 @@ opt.smartcase = true
 opt.splitright = true
 opt.splitbelow = true
 opt.confirm = true -- ask to save instead of failing on :q with unsaved changes
+
+-- Arabic: let the terminal (VTE) shape/join letters instead of nvim
+opt.arabicshape = false
+opt.termbidi = true

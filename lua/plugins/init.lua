@@ -79,13 +79,35 @@ return {
 		opts = {},
 	},
 
+	-- nvim-treesitter `main` branch (the old `master` branch is archived and breaks on nvim 0.12).
+	-- Needs the tree-sitter CLI (built with `cargo install --locked tree-sitter-cli`) and a C compiler.
+	-- `main` no longer highlights by itself: the FileType autocmd below starts it per buffer.
 	{
 		"nvim-treesitter/nvim-treesitter",
-		opts = {
-			ensure_installed = {
+		branch = "main",
+		lazy = false, -- main does not support lazy-loading
+		build = ":TSUpdate",
+		config = function()
+			-- NvChad's treesitter opts also load base46's highlight groups; keep that.
+			pcall(function()
+				dofile(vim.g.base46_cache .. "syntax")
+				dofile(vim.g.base46_cache .. "treesitter")
+			end)
+
+			-- Make the cargo-built tree-sitter CLI visible even if the shell PATH lacks ~/.cargo/bin.
+			local cargo_bin = vim.fn.expand("~/.cargo/bin")
+			if vim.fn.isdirectory(cargo_bin) == 1 and not vim.env.PATH:find(cargo_bin, 1, true) then
+				vim.env.PATH = cargo_bin .. ":" .. vim.env.PATH
+			end
+
+			local ts = require("nvim-treesitter")
+			ts.setup()
+			ts.install({
 				-- defaults
 				"vim",
 				"lua",
+				"luadoc",
+				"printf",
 				"vimdoc",
 				"query",
 
@@ -114,7 +136,17 @@ return {
 				"markdown_inline",
 				"gitcommit",
 				"diff",
-			},
-		},
+			})
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("treesitter_start", { clear = true }),
+				callback = function(args)
+					-- Silently skip filetypes that have no installed parser.
+					if pcall(vim.treesitter.start, args.buf) then
+						vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
+				end,
+			})
+		end,
 	},
 }
